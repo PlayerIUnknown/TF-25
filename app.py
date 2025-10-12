@@ -22,6 +22,8 @@ try:
     original_init = httpx.Client.__init__
     def patched_init(self, *args, **kwargs):
         kwargs['verify'] = False
+        # Remove proxy argument as it's not supported in this httpx version
+        kwargs.pop('proxy', None)
         original_init(self, *args, **kwargs)
     httpx.Client.__init__ = patched_init
     
@@ -29,6 +31,8 @@ try:
     original_async_init = httpx.AsyncClient.__init__
     def patched_async_init(self, *args, **kwargs):
         kwargs['verify'] = False
+        # Remove proxy argument as it's not supported in this httpx version
+        kwargs.pop('proxy', None)
         original_async_init(self, *args, **kwargs)
     httpx.AsyncClient.__init__ = patched_async_init
 except ImportError:

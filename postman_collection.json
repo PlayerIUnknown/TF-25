@@ -1,0 +1,383 @@
+{
+  "info": {
+    "name": "AI Survey Service API",
+    "description": "Complete API collection for AI-enabled survey service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "company_uuid",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "survey_uuid",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "customer_uuid",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health & Info",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            }
+          }
+        },
+        {
+          "name": "API Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": ["{{base_url}}"],
+              "path": [""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Companies",
+      "item": [
+        {
+          "name": "Create Company",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('company_uuid', response.data.uuid);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uuid\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"name\": \"Acme Corporation\",\n  \"sector\": \"Technology\",\n  \"products\": \"SaaS, Cloud Services, Analytics\",\n  \"details\": \"Leading provider of cloud-based solutions\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/companies",
+              "host": ["{{base_url}}"],
+              "path": ["api", "companies"]
+            }
+          }
+        },
+        {
+          "name": "Get Company",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/companies/{{company_uuid}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "companies", "{{company_uuid}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Company",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Acme Corporation Ltd.\",\n  \"sector\": \"Technology & SaaS\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/companies/{{company_uuid}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "companies", "{{company_uuid}}"]
+            }
+          }
+        },
+        {
+          "name": "List Companies",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/companies?page=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["api", "companies"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Company",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/companies/{{company_uuid}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "companies", "{{company_uuid}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Surveys",
+      "item": [
+        {
+          "name": "Create Survey",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('survey_uuid', response.data.uuid);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uuid\": \"987fcdeb-51a2-43d7-9876-543210fedcba\",\n  \"title\": \"Customer Satisfaction Survey Q4 2025\",\n  \"description\": \"Help us understand your experience with our services\",\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/companies/{{company_uuid}}/surveys",
+              "host": ["{{base_url}}"],
+              "path": ["api", "companies", "{{company_uuid}}", "surveys"]
+            }
+          }
+        },
+        {
+          "name": "List Company Surveys",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/companies/{{company_uuid}}/surveys",
+              "host": ["{{base_url}}"],
+              "path": ["api", "companies", "{{company_uuid}}", "surveys"]
+            }
+          }
+        },
+        {
+          "name": "Get Survey",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/surveys/{{survey_uuid}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "surveys", "{{survey_uuid}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Survey",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Survey Title\",\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/surveys/{{survey_uuid}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "surveys", "{{survey_uuid}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Survey Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/surveys/{{survey_uuid}}/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "surveys", "{{survey_uuid}}", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Delete Survey",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/surveys/{{survey_uuid}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "surveys", "{{survey_uuid}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Customers & Chat",
+      "item": [
+        {
+          "name": "Register Customer",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('customer_uuid', response.data.customer.uuid);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"uuid\": \"456e7890-a12b-34c5-d678-901234567890\",\n  \"name\": \"John Doe\",\n  \"age\": 28,\n  \"gender\": \"Male\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/surveys/{{survey_uuid}}/customers",
+              "host": ["{{base_url}}"],
+              "path": ["api", "surveys", "{{survey_uuid}}", "customers"]
+            }
+          }
+        },
+        {
+          "name": "Send Chat Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"I'm very satisfied with your product!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/surveys/{{survey_uuid}}/customers/{{customer_uuid}}/chat",
+              "host": ["{{base_url}}"],
+              "path": ["api", "surveys", "{{survey_uuid}}", "customers", "{{customer_uuid}}", "chat"]
+            }
+          }
+        },
+        {
+          "name": "Get Chat History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/surveys/{{survey_uuid}}/customers/{{customer_uuid}}/history",
+              "host": ["{{base_url}}"],
+              "path": ["api", "surveys", "{{survey_uuid}}", "customers", "{{customer_uuid}}", "history"]
+            }
+          }
+        },
+        {
+          "name": "Get Customer",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/surveys/{{survey_uuid}}/customers/{{customer_uuid}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "surveys", "{{survey_uuid}}", "customers", "{{customer_uuid}}"]
+            }
+          }
+        },
+        {
+          "name": "List Survey Customers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/surveys/{{survey_uuid}}/customers",
+              "host": ["{{base_url}}"],
+              "path": ["api", "surveys", "{{survey_uuid}}", "customers"]
+            }
+          }
+        },
+        {
+          "name": "Delete Customer",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/surveys/{{survey_uuid}}/customers/{{customer_uuid}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "surveys", "{{survey_uuid}}", "customers", "{{customer_uuid}}"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+

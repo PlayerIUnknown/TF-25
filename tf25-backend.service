@@ -1,0 +1,22 @@
+[Unit]
+Description=TF-25 Backend API Service
+After=network.target
+
+[Service]
+Type=notify
+User=your-username
+Group=your-username
+WorkingDirectory=/path/to/TF-25
+Environment="PATH=/path/to/TF-25/venv/bin"
+EnvironmentFile=/path/to/TF-25/.env
+ExecStart=/path/to/TF-25/venv/bin/gunicorn --config gunicorn_config.py wsgi:app
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+
